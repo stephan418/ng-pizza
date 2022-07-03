@@ -1,0 +1,19 @@
+h1 {
+    margin: 16px 0 16px 16px;
+}
+
+:host > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 14rem);
+
+    gap: 16px;
+    margin: 0 16px;
+}
+
+.detail {
+    padding: 8px;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
