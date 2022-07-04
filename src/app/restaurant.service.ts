@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 interface Restaurant {
   id: number;
@@ -13,17 +13,33 @@ interface Restaurant {
   providedIn: 'root',
 })
 export class RestaurantService {
-  private _restaurants: Observable<Restaurant[]> | undefined;
+  private _restaurants: Subject<Restaurant[]> = new Subject();
+  private currentValue: Restaurant[] | undefined;
 
-  constructor(private http: HttpClient) {}
-
-  getRestaurants() {
-    return (this._restaurants = this.http.get<any>('/assets/restaurants.json', {
-      responseType: 'json',
-    }));
+  constructor(private http: HttpClient) {
+    this.getRestaurants();
   }
 
-  get restaurants() {
+  getRestaurants(): Observable<Restaurant[]> {
+    this.http
+      .get<any>('/assets/restaurants.json', {
+        responseType: 'json',
+      })
+      .subscribe((value) => {
+        this._restaurants.next(value);
+        this.currentValue = value;
+      });
+
     return this._restaurants;
+  }
+
+  get restaurants(): Observable<Restaurant[]> {
+    return new Observable((subscriber) => {
+      if (this.currentValue) {
+        subscriber.next(this.currentValue);
+      }
+
+      this._restaurants.subscribe((value) => subscriber.next(value));
+    });
   }
 }

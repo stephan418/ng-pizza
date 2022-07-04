@@ -10,7 +10,7 @@ export class ResturantPickerComponent implements OnInit {
   restaurants;
 
   constructor(private restaurantService: RestaurantService) {
-    this.restaurants = this.restaurantService.getRestaurants();
+    this.restaurants = this.restaurantService.restaurants;
   }
 
   ngOnInit(): void {}
