@@ -1,1 +1,8 @@
-<p>restaurant-viewer works!</p>
+<h1>Menu of {{ restaurant?.name }}</h1>
+<h2>Products ({{ restaurant?.products?.length || 0 }})</h2>
+
+<ul>
+  <li *ngFor="let product of restaurant?.products">
+    {{ product.name }} ({{ product.price | currency: "EUR" }})
+  </li>
+</ul>

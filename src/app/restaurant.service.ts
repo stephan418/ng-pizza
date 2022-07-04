@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-interface Restaurant {
+export interface Restaurant {
   id: number;
   name: string;
   rating: number;
