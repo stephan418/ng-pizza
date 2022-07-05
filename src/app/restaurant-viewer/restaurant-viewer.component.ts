@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { CartService } from '../cart.service';
 import { Restaurant, RestaurantService } from '../restaurant.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class RestaurantViewerComponent implements OnInit {
 
   constructor(
     private restaurantService: RestaurantService,
+    private cartService: CartService,
     private route: ActivatedRoute
   ) {
     this.restaurantId = Number(
@@ -25,5 +27,11 @@ export class RestaurantViewerComponent implements OnInit {
       .subscribe((value) => (this.restaurant = value));
   }
 
-  ngOnInit(): void {}
+  onProductClick(id: number) {
+    this.cartService.addProduct(id);
+  }
+
+  ngOnInit(): void {
+    this.cartService.selectRestaurant(this.restaurantId);
+  }
 }
